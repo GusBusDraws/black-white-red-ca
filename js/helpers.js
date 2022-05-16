@@ -13,4 +13,12 @@ function keyPressed() {
       resetSketch();
     }
   }
+
+function make2DArray(nRows, nCols, fillVal = undefined) {
+  let arr = new Array(nRows);
+  for (let i = 0; i < arr.length; i++) {
+    arr[i] = new Array(nCols).fill(fill);
+  }
+  return arr;
+}
   
