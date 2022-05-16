@@ -1,6 +1,7 @@
-let nPixelsRow = 400
-let nPixelsCol = 400
+let nPixelsRow = 600
+let nPixelsCol = 600
 let res = 10
+let fps = 2
 let nRows = nPixelsRow / res
 let nCols = nPixelsCol / res
 let cellGrid
@@ -10,13 +11,23 @@ let nextLiveCellArray = []
 
 function setup() {
   createCanvas(nPixelsCol, nPixelsRow)
+  frameRate(fps)
   resetSketch()
   console.log('Press SPACE to stop looping or r to reset.')
 }
 
 function draw() {
+  // Move next grid & cells to current grid & cells
   updateLiveCells()
-  drawLiveCells()
+  background(colorFromVal(0))
+  for (let coords of liveCellArray) {
+    let [row, col] = coords
+    let cellVal = cellGrid[row][col]
+    // Draw cell as it is on cellGrid
+    drawCell(row, col, cellVal)
+    // Move cell on nextCellGrid
+    moveCell(row, col, cellVal)
+  }
 }
 
 function addRandomCell(val) {
@@ -30,21 +41,24 @@ function drawCell(row, col, val) {
   let x = col * res
   let y = row * res
   noStroke()
-  fill(valToColor(val))
+  fill(colorFromVal(val))
   square(x, y, res)
 }
 
-function drawLiveCells() {
-  for (let coords of liveCellArray) {
-    let [row, col] = coords
-    let cellVal = cellGrid[row][col]
-    drawCell(row, col, cellVal)
-    // let [newX, newY] = moveCell()
+function moveCell(row, col, val) {
+  rowDir = floor(random(-1, 2))
+  colDir = floor(random(-1, 2))
+  let newRow = row + rowDir
+  let newCol = col + colDir
+  // If cell is in bounds, move & track. Else, die & forget.
+  if (newRow < nRows && newRow > 0 && newCol < nCols && newCol > 0) {
+    nextLiveCellArray.push([newRow, newCol])
+    nextCellGrid[newRow][newCol] = val
   }
 }
 
 function resetSketch() {
-  background(0)
+  background(colorFromVal(0))
   cellGrid = make2DArray(nRows, nCols, fillVal = 0)
   nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
   liveCellArray = []
@@ -53,13 +67,15 @@ function resetSketch() {
 }
 
 function updateLiveCells() {
-  liveCellArray = nextLiveCellArray
+  // Copy the array by creating new array that slices each item of the old array
+  liveCellArray = nextLiveCellArray.slice(0)
   nextLiveCellArray = []
-  cellGrid = nextCellGrid
+  // Copy the 2D array by slicing each item from each inner array
+  cellGrid = nextCellGrid.map(inner => inner.slice(0))
   nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
 }
 
-function valToColor(val) {
+function colorFromVal(val) {
   let colors = {
     0 : '#000000',
     1 : '#FFFFFF',
