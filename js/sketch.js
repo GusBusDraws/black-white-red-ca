@@ -30,33 +30,6 @@ function draw() {
   }
 }
 
-function addRandomCell(val) {
-  let row = floor(random(nRows))
-  let col = floor(random(nCols))
-  nextLiveCellArray.push([row, col])
-  nextCellGrid[row][col] = val
-}
-
-function drawCell(row, col, val) {
-  let x = col * res
-  let y = row * res
-  noStroke()
-  fill(colorFromVal(val))
-  square(x, y, res)
-}
-
-function moveCell(row, col, val) {
-  rowDir = floor(random(-1, 2))
-  colDir = floor(random(-1, 2))
-  let newRow = row + rowDir
-  let newCol = col + colDir
-  // If cell is in bounds, move & track. Else, die & forget.
-  if (newRow < nRows && newRow > 0 && newCol < nCols && newCol > 0) {
-    nextLiveCellArray.push([newRow, newCol])
-    nextCellGrid[newRow][newCol] = val
-  }
-}
-
 function resetSketch() {
   background(colorFromVal(0))
   cellGrid = make2DArray(nRows, nCols, fillVal = 0)
@@ -75,6 +48,21 @@ function updateLiveCells() {
   nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
 }
 
+function addRandomCell(val) {
+  let row = floor(random(nRows))
+  let col = floor(random(nCols))
+  nextLiveCellArray.push([row, col])
+  nextCellGrid[row][col] = val
+}
+
+function drawCell(row, col, val) {
+  let x = col * res
+  let y = row * res
+  noStroke()
+  fill(colorFromVal(val))
+  square(x, y, res)
+}
+
 function colorFromVal(val) {
   let colors = {
     0 : '#000000',
@@ -82,4 +70,15 @@ function colorFromVal(val) {
     2 : '#FF0000',
   }
   return colors[val]
+}
+function moveCell(row, col, val) {
+  rowDir = floor(random(-1, 2))
+  colDir = floor(random(-1, 2))
+  let newRow = row + rowDir
+  let newCol = col + colDir
+  // If cell is in bounds, move & track. Else, die & forget.
+  if (newRow < nRows && newRow > 0 && newCol < nCols && newCol > 0) {
+    nextLiveCellArray.push([newRow, newCol])
+    nextCellGrid[newRow][newCol] = val
+  }
 }
