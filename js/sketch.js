@@ -8,6 +8,10 @@ let cellGrid
 let nextCellGrid
 // Organism variables
 let organisms = []
+let prob = {
+  'grow' : 0.5,
+  'shrink' : 0.5
+}
 // Save frames
 let saveFrames = false
 let nSaveFrames = 30

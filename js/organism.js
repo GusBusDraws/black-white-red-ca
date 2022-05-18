@@ -35,10 +35,10 @@ class Organism {
 		this.action()
 	}
 	move() {
+		let rowDir = floor(random(-1, 2))
+		let colDir = floor(random(-1, 2))
 		for (let coords of this.liveCellArray) {
 			let [row, col] = coords
-			let rowDir = floor(random(-1, 2))
-			let colDir = floor(random(-1, 2))
 			let newRow = row + rowDir
 			let newCol = col + colDir
 			// If cell is in bounds, move & track. Else, die & forget.
@@ -56,14 +56,27 @@ class Organism {
 	grow() {
 		// Growing is staying the same (carry on current grid/cells to next frame) followed by moving
 		this.noChange()
-		this.move()
+		for (let coords of this.liveCellArray) {
+			if (random() < prob['grow']) {
+				let [row, col] = coords
+				let rowDir = floor(random(-1, 2))
+				let colDir = floor(random(-1, 2))
+				let newRow = row + rowDir
+				let newCol = col + colDir
+				// If cell is in bounds, move & track. Else, die & forget.
+				if (newRow < nRows && newRow >= 0 && newCol < nCols && newCol >= 0) {
+					this.nextLiveCellArray.push([newRow, newCol])
+					nextCellGrid[newRow][newCol] = this.val
+				}
+			}
+		}
 	}
 	shrink() {
 		// Shrinking is 
 		this.noChange()
 		for (let i = this.liveCellArray.length - 1; i >= 0; i --) {
 			let [row, col] = coords
-			if (probShrink < random()) {
+			if (random() < prob['shrink']) {
 				this.nextLiveCellArray.splice(i, 1)
 				nextCellGrid[newRow][newCol] = 0
 			}
