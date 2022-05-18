@@ -10,7 +10,7 @@ let nextCellGrid
 let organisms = []
 // Save frames
 let saveFrames = false
-let nSaveFrames = 20
+let nSaveFrames = 30
 
 function setup() {
   createCanvas(nPixelsCol, nPixelsRow)

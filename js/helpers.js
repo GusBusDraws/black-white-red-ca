@@ -15,7 +15,7 @@ function keyPressed() {
   }
 
 function saveFrame() {
-  if (frameCount - 1 < nFrames) {
+  if (frameCount - 1 < nSaveFrames) {
     saveCanvas(`frame_${('000' + frameCount).slice(-3)}`);
   }
 }
