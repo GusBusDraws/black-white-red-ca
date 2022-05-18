@@ -4,6 +4,7 @@ class Organism {
 		this.nextLiveCellArray = [[row, col]]
 		this.val = val
 		nextCellGrid[row][col] = this.val 
+		this.action = null
 	}
 	updateLiveCells() {
 		// Copy the array by creating new array that slices each item of the old array
@@ -12,6 +13,19 @@ class Organism {
 		// Copy the 2D array by slicing each item from each inner array
 		cellGrid = nextCellGrid.map(inner => inner.slice(0))
 		nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
+	}
+	performAction() {
+    if (this.action == 'moving') {
+      for (let coords of this.liveCellArray) {
+        let [row, col] = coords
+        // Move cell on nextCellGrid
+        this.moveCell(row, col)
+      }
+    } else {
+      // Copy next grid/cells to stay the same
+      this.nextLiveCellArray = this.liveCellArray.slice(0)
+      nextCellGrid = cellGrid.map(inner => inner.slice(0))
+    }
 	}
 	moveCell(row, col) {
 		let rowDir = floor(random(-1, 2))

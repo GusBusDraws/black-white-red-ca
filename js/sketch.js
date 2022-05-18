@@ -30,12 +30,8 @@ function draw() {
   }
   // Allow organisms to move and grow
   for (let o of organisms) {
-    for (let coords of o.liveCellArray) {
-      let [row, col] = coords
-      let cellVal = cellGrid[row][col]
-      // Move cell on nextCellGrid
-      o.moveCell(row, col)
-    }
+    o.action = random(['moving', null])
+    o.performAction()
   }
 }
 
