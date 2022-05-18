@@ -20,6 +20,7 @@ function setup() {
 }
 
 function draw() {
+  if (saveFrames) saveFrame()
   // Move next grid & cells to current grid & cells
   background(colorFromVal(0))
   for (let o of organisms) {
