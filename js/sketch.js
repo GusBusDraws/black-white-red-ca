@@ -1,5 +1,5 @@
-let nPixelsRow = 600
-let nPixelsCol = 600
+let nPixelsRow = 200
+let nPixelsCol = 200
 let res = 10
 let fps = 2
 let nRows = nPixelsRow / res
@@ -8,6 +8,9 @@ let cellGrid
 let nextCellGrid
 // Organism variables
 let organisms = []
+// Save frames
+let saveFrames = false
+let nSaveFrames = 20
 
 function setup() {
   createCanvas(nPixelsCol, nPixelsRow)
@@ -25,7 +28,7 @@ function draw() {
   }
   // Allow organisms to move and grow
   for (let o of organisms) {
-    o.action = random(['moving', null])
+    o.chooseAction()
     o.performAction()
   }
 }

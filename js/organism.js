@@ -14,30 +14,6 @@ class Organism {
 		cellGrid = nextCellGrid.map(inner => inner.slice(0))
 		nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
 	}
-	performAction() {
-    if (this.action == 'moving') {
-      for (let coords of this.liveCellArray) {
-        let [row, col] = coords
-        // Move cell on nextCellGrid
-        this.moveCell(row, col)
-      }
-    } else {
-      // Copy next grid/cells to stay the same
-      this.nextLiveCellArray = this.liveCellArray.slice(0)
-      nextCellGrid = cellGrid.map(inner => inner.slice(0))
-    }
-	}
-	moveCell(row, col) {
-		let rowDir = floor(random(-1, 2))
-		let colDir = floor(random(-1, 2))
-		let newRow = row + rowDir
-		let newCol = col + colDir
-		// If cell is in bounds, move & track. Else, die & forget.
-		if (newRow < nRows && newRow >= 0 && newCol < nCols && newCol >= 0) {
-				this.nextLiveCellArray.push([newRow, newCol])
-				nextCellGrid[newRow][newCol] = this.val
-		}
-	}
 	drawCells() {
 		for (let coords of this.liveCellArray) {
 			let [row, col] = coords
@@ -51,5 +27,46 @@ class Organism {
 		noStroke()
 		fill(colorFromVal(this.val))
 		square(x, y, res)
+	}
+	chooseAction() {
+		this.action = random([this.move, this.grow])
+	}
+	performAction(action) {
+		this.action()
+	}
+	move() {
+		for (let coords of this.liveCellArray) {
+			let [row, col] = coords
+			let rowDir = floor(random(-1, 2))
+			let colDir = floor(random(-1, 2))
+			let newRow = row + rowDir
+			let newCol = col + colDir
+			// If cell is in bounds, move & track. Else, die & forget.
+			if (newRow < nRows && newRow >= 0 && newCol < nCols && newCol >= 0) {
+				this.nextLiveCellArray.push([newRow, newCol])
+				nextCellGrid[newRow][newCol] = this.val
+			}
+		}
+	}
+	noChange() {
+		// Copy next grid/cells to stay the same
+		this.nextLiveCellArray = this.liveCellArray.slice(0)
+		nextCellGrid = cellGrid.map(inner => inner.slice(0))
+	}
+	grow() {
+		// Growing is staying the same (carry on current grid/cells to next frame) followed by moving
+		this.noChange()
+		this.move()
+	}
+	shrink() {
+		// Shrinking is 
+		this.noChange()
+		for (let i = this.liveCellArray.length - 1; i >= 0; i --) {
+			let [row, col] = coords
+			if (probShrink < random()) {
+				this.nextLiveCellArray.splice(i, 1)
+				nextCellGrid[newRow][newCol] = 0
+			}
+		}
 	}
 }
