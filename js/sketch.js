@@ -21,12 +21,7 @@ function draw() {
   background(colorFromVal(0))
   for (let o of organisms) {
     o.updateLiveCells()
-    for (let coords of o.liveCellArray) {
-      let [row, col] = coords
-      let cellVal = cellGrid[row][col]
-      // Draw cell as it is on cellGrid
-      drawCell(row, col, cellVal)
-    }
+    o.drawCells()
   }
   // Allow organisms to move and grow
   for (let o of organisms) {
@@ -42,14 +37,6 @@ function resetSketch() {
   organisms.push(
     new Organism(floor(random(nRows)), floor(random(nCols)), 1)
   )
-}
-
-function drawCell(row, col, val) {
-  let x = col * res
-  let y = row * res
-  noStroke()
-  fill(colorFromVal(val))
-  square(x, y, res)
 }
 
 function colorFromVal(val) {

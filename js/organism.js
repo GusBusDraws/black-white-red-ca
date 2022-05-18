@@ -39,13 +39,17 @@ class Organism {
 		}
 	}
 	drawCells() {
-		for (let coords of o.liveCellArray) {
+		for (let coords of this.liveCellArray) {
 			let [row, col] = coords
-			let cellVal = cellGrid[row][col]
 			// Draw cell as it is on cellGrid
-			drawCell(row, col, cellVal)
-			// Move cell on nextCellGrid
-			o.moveCell(row, col)
+			this.drawCell(row, col)
 		}
+	}
+	drawCell(row, col) {
+		let x = col * res
+		let y = row * res
+		noStroke()
+		fill(colorFromVal(this.val))
+		square(x, y, res)
 	}
 }
