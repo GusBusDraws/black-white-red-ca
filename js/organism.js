@@ -29,7 +29,7 @@ class Organism {
 		square(x, y, res)
 	}
 	chooseAction() {
-		this.action = random([this.move, this.grow])
+		this.action = random([this.move, this.grow, this.shrink])
 	}
 	performAction(action) {
 		this.action()
@@ -70,15 +70,17 @@ class Organism {
 				}
 			}
 		}
+		this.liveCellArray = [... new Set(this.liveCellArray)]
 	}
 	shrink() {
 		// Shrinking is 
 		this.noChange()
 		for (let i = this.liveCellArray.length - 1; i >= 0; i --) {
+			let coords = this.liveCellArray[i]
 			let [row, col] = coords
-			if (random() < prob['shrink']) {
+			if (random() < prob['shrink'] * this.liveCellArray.length) {
 				this.nextLiveCellArray.splice(i, 1)
-				nextCellGrid[newRow][newCol] = 0
+				nextCellGrid[row][col] = 0
 			}
 		}
 	}

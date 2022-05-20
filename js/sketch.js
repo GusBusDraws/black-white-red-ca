@@ -1,5 +1,5 @@
-let nPixelsRow = 200
-let nPixelsCol = 200
+let nPixelsRow = 400
+let nPixelsCol = 400
 let res = 10
 let fps = 2
 let nRows = nPixelsRow / res
@@ -10,11 +10,11 @@ let nextCellGrid
 let organisms = []
 let prob = {
   'grow' : 0.5,
-  'shrink' : 0.5
+  'shrink' : 0.01
 }
 // Save frames
 let saveFrames = false
-let nSaveFrames = 30
+let nSaveFrames = 50
 
 function setup() {
   createCanvas(nPixelsCol, nPixelsRow)
@@ -43,7 +43,11 @@ function resetSketch() {
   cellGrid = make2DArray(nRows, nCols, fillVal = 0)
   nextCellGrid = make2DArray(nRows, nCols, fillVal = 0)
   organisms.push(
-    new Organism(floor(random(nRows)), floor(random(nCols)), 1)
+    new Organism(
+      floor(random(nRows / 4, 3 * nRows / 4)), 
+      floor(random(nCols / 4, 3 * nCols / 4)),
+      1
+    )
   )
 }
 
