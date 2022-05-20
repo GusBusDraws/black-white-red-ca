@@ -14,6 +14,12 @@ function keyPressed() {
     }
   }
 
+function saveFrame() {
+  if (frameCount - 1 < nSaveFrames) {
+    saveCanvas(`frame_${('000' + frameCount).slice(-3)}`);
+  }
+}
+
 function make2DArray(nRows, nCols, fillVal = undefined) {
   let arr = new Array(nRows);
   for (let i = 0; i < arr.length; i++) {
